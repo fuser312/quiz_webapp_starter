@@ -1,6 +1,7 @@
 import React from "react";
 import Question from "../Question";
 import Option from "../Option";
+import ProgressBar from "../ProgressBar";
 import './styles.css';
 
 
@@ -75,10 +76,7 @@ class Quiz extends React.Component {
             }, 3000);
         }
     }
-        // this.setState({
-        //         selectedOption: id,
-        //     }
-        // );
+
     question;
 
 
@@ -102,6 +100,7 @@ class Quiz extends React.Component {
                             optionClicked={this.handleOptionClicked}/>
 
                 </div>
+                <ProgressBar key={this.state.currentQuestionIndex} questionAnswered={this.state.questionAnswered} handleOptionClickedQuestion={() => this.handleOptionClicked()} queIndex={this.state.currentQuestionIndex}/>
             </div>
         );
     }
