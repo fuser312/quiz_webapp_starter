@@ -4,6 +4,7 @@ import Option from "../Option";
 import ProgressBar from "../ProgressBar";
 import './styles.css';
 import {BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
+import Result from "../Result";
 
 
 class Quiz extends React.Component {
@@ -75,22 +76,24 @@ class Quiz extends React.Component {
             // console.log(`hi, this is : ${this.state.selectedOption}`);
 
             setTimeout(() => {
-                if (copyCurrentQuestionIndex === this.questions.length-1) {
-                    this.props.history.push({
-                            pathname: "/result",
-                            state: {
-                                score: newScore,
-                                questions : this.questions,
-                            }
-                        }
-                    )
-                } else {
+                // if (copyCurrentQuestionIndex === this.questions.length-1) {
+                //     this.props.history.push({
+                //             pathname: "/result",
+                //             state: {
+                //                 score: newScore,
+                //                 questions : this.questions,
+                //             }
+                //         }
+                //     )
+                // }
+                // else {
+                this.userAnswer.push('');
                     this.setState({
                         selectedOption: null,
                         questionAnswered: false,
                         currentQuestionIndex: copyCurrentQuestionIndex,
                     });
-                }
+                // }
             }, 3000);
         }
     }
@@ -107,6 +110,13 @@ class Quiz extends React.Component {
     }
 
     render() {
+        if(this.state.currentQuestionIndex===this.questions.length){
+            return(
+                <div>
+                    <Result score={this.state.score} numberOfQuestions={this.questions.length} questions={this.questions} answerList={this.userAnswer} />
+                </div>
+            )
+        }
         // if (this.state.currentQuestionIndex < this.questions.length - 1)
         this.question = this.questions[this.state.currentQuestionIndex];
         //alert(`the index is ${this.state.currentQuestionIndex}`);
@@ -117,7 +127,7 @@ class Quiz extends React.Component {
                 <Question questionText={this.question.text}/>
                 <div className="options-container">
                     {this.showOptions()}
-                  
+
                 </div>
                 <ProgressBar key={this.state.currentQuestionIndex} questionAnswered={this.state.questionAnswered}
                              handleOptionClickedQuestion={() => this.handleOptionClicked()}
